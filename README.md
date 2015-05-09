@@ -1,0 +1,4 @@
+# The Numbers Game
+## Copyright 2015 Fong Lor
+## Description:
+This is my awesome project for ProgFun. This program displays a random unique number from 1-6 each round for a maximum of 6 rounds. Player 1 then enters a unique number from 1-6. That number is compared to another random unique number from 1-6 belonging to Player 2.  Whoever has the higher number gets the value of all 3 numbers added to their  score. If both players choose the same number, the value of all 3 numbers will  be added to the next random number in the next round. The first player who  scores above 32 or who has the highest score after 6 rounds wins.

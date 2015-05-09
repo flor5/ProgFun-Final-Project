@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>the FINAL PROJECT</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- jquery
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <h1>the FINAL PROJECT</h1>
+      </header>
+      <section id="content">
+        <article class="single">
+          <h2>The Numbers Game</h2>
+          <hr>
+          <p>Your Score: <span id="player1Score"></span></p>
+          <p>Computer's Score: <span id="player2Score"></span></p>
+          <p>Prize Number: <b><span id="prizeNumber"></span></b></p>
+          <p>You can choose from these numbers: <span id="player1Inputs"></span></p>
+          <form id="game">
+            <label for="player1Answer"><span class="asterisk">*</span>Your answer:</label>
+            <input required id="player1Answer" placeholder="Enter number here" type="number" min="1" max="6">
+            <input value="Submit" type="submit" class="submit">
+          </form>
+          <h3 class="heading3">Results</h3>
+          <hr>
+          <ul>
+            <li><span id="results"></span></li>
+          </ul>
+          <h3 class="heading3">How to Play</h3>
+          <hr id="orange">
+          <p>Pick a number from 1-6. If your number is greater than your opponent's
+             number, you get your number, the opponent's number, and the prize number
+             added to your score. First to 32 wins or after 6 rounds, the player with
+             the most points wins. Good luck!
+          </p>
+        </article>
+      </section>
+      <footer>
+        <small>Copyright &copy; 2015 Fong Lor</small><br>
+        <a href="mailto:flor5@student.cvtc.edu"><em>fong@lor.com</em></a> 
+      </footer>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

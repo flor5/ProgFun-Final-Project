@@ -1,0 +1,295 @@
+Fong Lor
+
+Problem Statement:
+A program is required that involves betting numbers to win more numbers. In each
+round, a random unique number from 1-6 will be outputted. The player then chooses
+a number from 1-6 against their opponent who chooses a random number from 1-6.
+Each number can only be used once per game. Show the numbers that are available
+for player 1 to use each round. When the player submits their answer, show the
+player the results of the round. The player who bet the largest number gets both
+numbers and the random number will be added to the next random number in the next
+round. The first player to 32 or with the highest score after 6 rounds wins the
+game.
+Example: Random Number: 4, Player 1: 5, Player 2: 4. Player 1 wins this round
+         and gets 13 added to their score.
+
+
+Nouns: numbers, round, random unique number, player, opponent, once per game,
+       answer, results, largest number, score, same number, value, 32, game,
+       highest score, 6 rounds
+
+Verbs: involve, betting, outputted, chooses, used, submits, gets, added, wins,
+       show
+
+********************************************************************************
+
+Defining Diagram
+Inputs:
+  player1Answer
+  
+Processing:
+  Display prizeNumber
+  Get player2Answer
+  Wait until user submits player1Answer
+  Remove player1Answer from player1Inputs
+  Compare player1Answer to player2Answer
+  Add points to winner's score
+  Repeat until there is a winner
+  Display results
+
+Output:
+  player1Inputs
+  player1Score
+  player2Score
+  results
+
+********************************************************************************
+
+Pseudocode
+
+IsValueInWhiteList(userInput, userArray)
+  Initialize result = false
+  LOOP starting at index = 0 to length of userArray in increments of 1
+    IF userInput === userArray[index] THEN
+      Set result = true
+      break
+    ENDIF
+  END LOOP
+  Return result
+END
+
+FindAndRemoveValue(userInput, userArray)
+  Initialize newArray = []
+  LOOP starting at index = 0 to length of userArray in increments of 1
+    IF userInput !== userArray[index] THEN
+      add userArray[index] to end of newArray
+    ENDIF
+  END LOOP
+  Return newArray
+END
+
+RandomNumberArray
+  Initialize shuffledArray = [1,2,3,4,5,6]
+  LOOP starting at currentIndex = length of shuffledArray - 1 to 0 in decrements of 1
+    Initialize randomIndex = random integer between 0 and currentIndex inclusive
+    Initialize temporaryValue = shuffledArray[currentIndex]
+    Set shuffledArray[currentIndex] = shuffledArray[randomIndex]
+    Set shuffledArray[randomIndex] = temporaryValue
+  END LOOP
+  Return shuffledArray
+END
+
+MainProgram
+  Initialize $answer = $("#player1Answer")
+  Initialize $form = $("#game")
+  Initialize $inputs = $("#player1Inputs")
+  Initialize $message = ""
+  Initialize $randomPrize = $("#prizeNumber")
+  Initialize $results = $("#results")
+  Initialize $score1 = $("#player1Score")
+  Initialize $score2 = $("#player2Score")
+  Initialize player1Answer = 0
+  Initialize player1Inputs = [1," - ",2," - ",3," - ",4," - ",5," - ",6]
+  Initialize player1Score = 0
+  Initialize player2Answer = 0
+  Initialize player2Inputs = randomNumberArray()
+  Initialize player2Score = 0
+  Initialize prizeNumber = 0
+  Initialize randomPrizeNumbers = randomNumberArray()
+  Initialize rounds = 1
+  Initialize winnings = 0
+
+  Display player1Answer
+  Display player1Inputs
+  Display player1Score
+  Display player2Score
+  Display prizeNumber
+
+  Set prizeNumber = last element of randomPrizeNumbers
+  Display prizeNumber
+  
+  $form.submit(function(event))
+    event.preventDefault()
+    
+    Set player1Answer = $answer.val() converted to a number
+    
+    Reset input box to ""
+    
+    IF IsValueInWhiteList(player1Answer, player1Inputs) THEN
+      Set player1Inputs = FindAndRemoveValue(player1Answer, player1Inputs)
+      Display player1Inputs
+      
+      Set player2Answer = last element of player2Inputs
+      
+      IF player1Answer !== player2Answer THEN
+        Set winnings = player1Answer + player2Answer + prizeNumber
+        Set prizeNumber = 0
+        IF player1Answer > player2Answer THEN
+          player1Score += winnings
+          Display player1Score
+          Set $message = $("<li>Player 2 bet: " + player2Answer + ". You win this round. " +
+                            winnings + " added to your score.</li>")
+          Display $message
+        ELSE
+          player2Score += winnings
+          Display player2Score
+          Set $message = $("<li>Player 2 bet: " + player2Answer + ". You lose this round " +
+                   winnings + " added to player 2's score.</li>")
+          Display $message
+        ENDIF
+      ELSE
+        prizeNumber += player1Answer + player2Answer
+        Set $message = $("<li>Tie. " + prizeNumber + " added to next prize number.</li>")
+        Display $message
+      ENDIF
+      
+      IF player1Score >= 32 || player2Score >= 32 || rounds === 6 THEN
+        IF player1Score > player2Score THEN
+          Set $message = $("<li>You win.</li>")
+          Display $message
+        ELSE IF player2Score > player1Score THEN
+          Set $message = $("<li>You lose.</li>")
+          Display $message
+        ELSE
+          Set $message = $("<li>Tie game.</li>")
+          Display $message
+        ENDIF
+      ELSE
+        prizeNumber += last element of randomPrizeNumbers
+        Display prizeNumber
+        rounds++
+      ENDIF
+    ELSE
+      Set $message = $("<li>You entered that number already. Try again.</li>")
+      Display message
+    ENDIF
+  END form.submit
+END
+
+********************************************************************************
+
+TEST CASES
+VARIABLES: player1Score, player2Score, prizeNumber, player1Inputs, player1Answer,
+           $message,randomPrizeNumbers, player2Inputs
+
+TEST CASE 1:
+
+  INPUT VALUES:
+    a
+
+  EXPECTED RESULT:
+    Invalid input
+    
+  ACTUAL RESULT:
+    Please fill out this field
+  
+  
+TEST CASE 2:
+
+  INPUT VALUES:
+    0
+
+  EXPECTED RESULT:
+    Invalid input
+    
+  ACTUAL RESULT:
+    Please select a value that is no less than 1.
+  
+  
+TEST CASE 3:
+
+  INPUT VALUES:
+    7
+
+  EXPECTED RESULT:
+    Invalid input
+    
+  ACTUAL RESULT:
+    Please select a value that is no more than 6.
+  
+  
+TEST CASE 4:
+
+  INPUT VALUES:
+    1.1
+
+  EXPECTED RESULT:
+    Invalid input
+    
+  ACTUAL RESULT:
+    Please select a valid value. The two nearest valid values are 1 and 2.
+  
+  
+TEST CASE 5:
+
+  INPUT VALUES:
+    (click Submit)
+
+  EXPECTED RESULT:
+    Please fill out this field.
+    
+  ACTUAL RESULT:
+    Please fill out this field.
+    
+  
+TEST CASE 6:
+
+  INPUT VALUES: (randomprizeNumbers = [1,2,3,4,5,6], player2Inputs = [1,2,3,4,5,6])
+    1,2,3
+    
+  EXPECTED RESULT:
+    You lose.
+    Player 2 bet: 4. You lose this round. 11 added to player 2's score.
+    Player 2 bet: 5. You lose this round. 12 added to player 2's score.
+    Player 2 bet: 6. You lose this round. 13 added to player 2's score.
+    
+  ACTUAL RESULT:
+    You lose.
+    Player 2 bet: 4. You lose this round. 11 added to player 2's score.
+    Player 2 bet: 5. You lose this round. 12 added to player 2's score.
+    Player 2 bet: 6. You lose this round. 13 added to player 2's score.
+  
+  
+TEST CASE 7:
+
+  INPUT VALUES: (randomprizeNumbers = [1,2,3,4,5,6], player2Inputs = [1,2,3,4,5,6])
+    6,5,4,3,2,1
+  
+  EXPECTED RESULT:
+    Tie game.
+    Tie. 63 added to next prize number.
+    Tie. 60 added to next prize number.
+    Tie. 54 added to next prize number.
+    Tie. 45 added to next prize number.
+    Tie. 33 added to next prize number.
+    Tie. 18 added to next prize number.
+    
+  ACTUAL RESULT:
+    Tie game.
+    Tie. 63 added to next prize number.
+    Tie. 60 added to next prize number.
+    Tie. 54 added to next prize number.
+    Tie. 45 added to next prize number.
+    Tie. 33 added to next prize number.
+    Tie. 18 added to next prize number.
+  
+  
+TEST CASE 8:
+
+  INPUT VALUES: (randomprizeNumbers = [1,2,3,4,5,6], player2Inputs = [1,2,3,4,5,6])
+    1,6,5,4
+
+  EXPECTED RESULT:
+    You win.
+    Player 2 bet: 3. You win this round. 10 added to your score.
+    Player 2 bet: 4. You win this round. 13 added to your score.
+    Player 2 bet: 5. You win this round. 16 added to your score.
+    Player 2 bet: 6. You lose this round. 13 added to player 2's score.
+    
+  ACTUAL RESULT:
+    You win.
+    Player 2 bet: 3. You win this round. 10 added to your score.
+    Player 2 bet: 4. You win this round. 13 added to your score.
+    Player 2 bet: 5. You win this round. 16 added to your score.
+    Player 2 bet: 6. You lose this round. 13 added to player 2's score.
+  
